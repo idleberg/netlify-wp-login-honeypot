@@ -52,13 +52,6 @@ async function main() {
     const src = typeof file === 'string' ? file : file.src;
     const dest = typeof file === 'string' ? file : file.dest;
 
-    console.log({
-      src,
-      dest,
-      wordpressSourcePath,
-      destinationPath
-    })
-
     console.time(`Created 'static/${dest}'`);
       await copyFile(
         resolve(wordpressSourcePath, src),
