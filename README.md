@@ -29,7 +29,7 @@ wphp install
 
 You can change some of the default behaviour by setting the following environment variables.
 
-``env
+```env
 # Default values
 VITE_SITE_NAME=WordPress
 VITE_WORDPRESS_VERSION=6.0
