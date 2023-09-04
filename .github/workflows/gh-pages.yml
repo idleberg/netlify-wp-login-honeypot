@@ -1,0 +1,69 @@
+name: build
+
+on:
+  push:
+    paths:
+    - '.github/**'
+    - 'src/**'
+    - 'tools/**'
+    - 'package.json'
+    - 'pnpm-lock.yaml'
+    - 'svelte.config.js'
+    - 'vite.config.js'
+  pull_request:
+      paths:
+      - '.github/**'
+      - 'src/**'
+      - 'tools/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'svelte.config.js'
+      - 'vite.config.js'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '*'
+
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 7
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --strict-peer-dependencies
+
+      - name: Build CLI
+        run: |
+          pnpm run build:cli
+          node bin/wphp.cjs prepare --force
+
+      - name: Build Website
+        run: pnpm run build:vite
+        env:
+          VITE_SITE_NAME: Demo Page
+          VITE_WORDPRESS_VERSION: 6.0
+          VITE_ARTIFICIAL_DELAY: 2000
