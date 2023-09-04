@@ -15,8 +15,17 @@ async function main() {
 	const program = new Command();
 
 	program
-  	.option('-d, --debug', 'enable debug mode')
-  	.option('-f, --force', 'force overwriting files')
+    .option('-d, --debug', 'enable debug mode')
+    .option('-f, --force', 'force overwriting files')
+    .option('-r, --routes <path>', 'specify the SvelteKit routes path', relative(
+      process.cwd(),
+      resolve(process.cwd(), 'src', 'routes')
+    ))
+    .option('-s, --static <path>', 'specify the SvelteKit static path', relative(
+      process.cwd(),
+      resolve(process.cwd(), 'static')
+    ))
+    .option('-y, --yes', 'skip all answers', false)
 		.parse(process.argv);
 
 	const options = program.opts();
@@ -27,16 +36,14 @@ async function main() {
 
 	console.log(/* let it breathe */);
 
-  const answers = await inquirer
+  const answers = options.yes === false
+    ? await inquirer
     .prompt([
       {
         type: 'input',
         name: 'routesPath',
         message: 'Specify the SvelteKit routes folder of your project',
-        default: relative(
-          process.cwd(),
-          resolve(process.cwd(), 'src', 'routes')
-        ),
+        default: options.routes,
         async validate(value: string) {
           return await handlePathValidation(value, options.force);
         }
@@ -45,10 +52,7 @@ async function main() {
         type: 'input',
         name: 'staticPath',
         message: 'Specify the static folder of your project',
-        default: relative(
-          process.cwd(),
-          resolve(process.cwd(), 'static')
-        ),
+        default: options.static,
         async validate(value: string) {
           return await handlePathValidation(value, options.force);
         }
@@ -65,7 +69,13 @@ async function main() {
         message: 'Include readme.html',
         default: true
       },
-    ]);
+    ])
+    : {
+      routesPath: options.routes,
+      staticPath: options.static,
+      includeLicense: true,
+      includeReadme: true
+    };
 
   if (options.debug) {
     console.log({ answers });
