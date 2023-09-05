@@ -12,7 +12,7 @@
     "dev": "npm-run-all --parallel dev:*",
     "dev:cli": "npm run build:cli -- --watch",
     "dev:vite": "vite dev",
-    "build": "npm run clean && npm-run-all --parallel build:*",
+    "build": "npm run clean && npm-run-all build:cli build:vite",
     "build:cli": "tsup src/cli/*.ts --out-dir bin --no-splitting --cjsInterop --shims --tsconfig tsconfig.node.json",
     "build:vite": "vite build",
     "prepack": "npm run build:cli",
