@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "type": "module",
   "bin": {
-    "wphp": "./bin/wphp.js"
+    "wphp": "./bin/wphp.cjs"
   },
   "scripts": {
     "clean": "npm-run-all --parallel clean:*",
