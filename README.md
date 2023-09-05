@@ -13,7 +13,7 @@ You can use this as a template for your SvelteKit project. However, it's probabl
 ```sh
 npx degit idleberg/netlify-wp-login-honeypot
 cd netlify-wp-login-honeypot
-pnpm install
+npm install
 ```
 
 ### CLI
