@@ -4,7 +4,7 @@ import { dirname } from 'node:path';
 
 export async function copyFile(wordpressSourcePath: string, targetPath: string, forceOverwrite = false) {
   if (!forceOverwrite && await fileExists(targetPath)) {
-    console.error(`${logSymbols.error} File exists at target. Use --force to overwrite.`);
+    console.error(`${logSymbols.error} File ${targetPath} exists at target. Use --force to overwrite.`);
     process.exit(1);
   }
 

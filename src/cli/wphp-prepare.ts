@@ -2,7 +2,7 @@
 
 import { Command } from 'commander';
 import { copyFile } from './fs.js';
-import { destinationPath, staticFiles, wordpressSourcePath } from './config.js';
+import { destinationPath, prepareStaticFiles as staticFiles, wordpressSourcePath } from './config.js';
 import { execSync } from 'node:child_process';
 import { resolve } from 'node:path';
 import logSymbols from 'log-symbols';
@@ -49,15 +49,12 @@ async function main() {
   }
 
   await Promise.all(staticFiles.map(async (file) => {
-    const src = typeof file === 'string' ? file : file.src;
-    const dest = typeof file === 'string' ? file : file.dest;
-
-    console.time(`Created 'static/${dest}'`);
+    console.time(`Created 'static/${file}'`);
       await copyFile(
-        resolve(wordpressSourcePath, src),
-        resolve(destinationPath, dest),
+        resolve(wordpressSourcePath, file),
+        resolve(destinationPath, file),
         options.force
       );
-    console.timeEnd(`Created 'static/${dest}'`);
+    console.timeEnd(`Created 'static/${file}'`);
   }));
 }

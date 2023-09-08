@@ -4,7 +4,7 @@ import { Command } from 'commander';
 import { copyFile } from './fs.js';
 import { routeFiles, staticFiles, wordpressSourcePath } from './config.js';
 import { handlePathValidation } from './utils.js';
-import { relative, resolve } from 'node:path';
+import { basename, relative, resolve } from 'node:path';
 import inquirer from 'inquirer';
 
 (async () => {
@@ -17,6 +17,9 @@ async function main() {
 	program
     .option('-d, --debug', 'enable debug mode')
     .option('-f, --force', 'force overwriting files')
+    .option('--no-favicon', 'skip inclusion of favicon.png', true)
+    .option('--no-license', 'skip inclusion of license.txt', true)
+    .option('--no-readme', 'skip inclusion of readme.html', true)
     .option('-r, --routes <path>', 'specify the SvelteKit routes path', relative(
       process.cwd(),
       resolve(process.cwd(), 'src', 'routes')
@@ -59,20 +62,27 @@ async function main() {
       },
       {
         type: 'confirm',
+        name: 'includeFavicon',
+        message: 'Include favicon.png',
+        default: options.favicon
+      },
+      {
+        type: 'confirm',
         name: 'includeLicense',
         message: 'Include license.txt',
-        default: true
+        default: options.license
       },
       {
         type: 'confirm',
         name: 'includeReadme',
         message: 'Include readme.html',
-        default: true
+        default: options.readme
       },
     ])
     : {
       routesPath: options.routes,
       staticPath: options.static,
+      includeFavicon: true,
       includeLicense: true,
       includeReadme: true
     };
@@ -94,17 +104,24 @@ async function main() {
 
   // Static files
   await Promise.all(staticFiles.map(async file => {
-    const src = typeof file === 'string' ? file : file.src;
-    const dest = typeof file === 'string' ? file : file.dest;
-
-    console.time(`Created '${answers.staticPath}/${dest}'`);
+    console.time(`Created '${answers.staticPath}/${file}'`);
       await copyFile(
-        resolve(wordpressSourcePath, src),
-        resolve(process.cwd(), answers.staticPath, dest),
+        resolve(wordpressSourcePath, file),
+        resolve(process.cwd(), answers.staticPath, file),
         options.force
       );
-    console.timeEnd(`Created '${answers.staticPath}/${dest}'`);
+    console.timeEnd(`Created '${answers.staticPath}/${file}'`);
   }));
+
+  if (answers.includeFavicon) {
+    const file = 'wp-includes/images/w-logo-blue-white-bg.png';
+
+    await copyFile(
+      resolve(wordpressSourcePath, file),
+      resolve(process.cwd(), answers.staticPath, 'favicon.png'),
+      options.force
+    );
+  }
 
   if (answers.includeLicense) {
     const file = 'license.txt';

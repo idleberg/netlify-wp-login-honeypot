@@ -14,21 +14,23 @@ export const routeFiles = [
 ];
 
 export const staticFiles = [
-  {
-    src: 'wp-includes/images/w-logo-blue-white-bg.png',
-    dest: 'favicon.png'
-  },
-  'license.txt',
-  'readme.html',
   'wp-admin/css/forms.min.css',
-  'wp-admin/css/install.css',
   'wp-admin/css/l10n.min.css',
   'wp-admin/css/login.min.css',
   'wp-admin/images/w-logo-blue.png',
-  'wp-admin/images/wordpress-logo.png',
-  'wp-admin/images/wordpress-logo.svg',
   'wp-includes/css/buttons.min.css',
   'wp-includes/css/dashicons.min.css'
+];
+
+export const prepareStaticFiles = [
+  ...staticFiles,
+  // the following files are treated separately in install-mode
+  'license.txt',
+  'readme.html',
+  'wp-admin/css/install.css',
+  'wp-admin/images/wordpress-logo.png',
+  'wp-admin/images/wordpress-logo.svg',
+  'wp-includes/images/w-logo-blue-white-bg.png',
 ];
 
 export const wordpressSourcePath = resolve(__dirname, '..', 'node_modules', '.wordpress');
