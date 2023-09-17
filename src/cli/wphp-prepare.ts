@@ -49,12 +49,14 @@ async function main() {
   }
 
   await Promise.all(staticFiles.map(async (file) => {
-    console.time(`Created 'static/${file}'`);
+    const destFile = file.endsWith('/w-logo-blue-white-bg.png') ? 'favicon.png' : file;
+
+    console.time(`Created 'static/${destFile}'`);
       await copyFile(
         resolve(wordpressSourcePath, file),
-        resolve(destinationPath, file),
+        resolve(destinationPath, destFile),
         options.force
       );
-    console.timeEnd(`Created 'static/${file}'`);
+    console.timeEnd(`Created 'static/${destFile}'`);
   }));
 }
