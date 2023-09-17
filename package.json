@@ -11,6 +11,9 @@
   "bin": {
     "wphp": "./bin/wphp.cjs"
   },
+  "engines": {
+    "node": ">=16"
+  },
   "scripts": {
     "clean": "npm-run-all --parallel clean:*",
     "clean:cli": "rimraf ./bin",
