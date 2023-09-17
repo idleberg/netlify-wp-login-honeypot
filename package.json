@@ -2,6 +2,12 @@
   "name": "netlify-wp-login-honeypot",
   "version": "0.2.0",
   "type": "module",
+  "files": [
+    "bin",
+    "src",
+    "LICENSE",
+    "README.md"
+  ],
   "bin": {
     "wphp": "./bin/wphp.cjs"
   },
