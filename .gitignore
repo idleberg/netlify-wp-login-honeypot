@@ -12,6 +12,7 @@ static/
 
 .eslintcache
 .stylelintcache
+vite.config.js.timestamp-*
 
 .pnpm-debug.log
 package-lock.json
