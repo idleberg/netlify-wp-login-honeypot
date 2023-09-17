@@ -12,7 +12,7 @@
     "wphp": "./bin/wphp.cjs"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "scripts": {
     "clean": "npm-run-all --parallel clean:*",
