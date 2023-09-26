@@ -4,7 +4,7 @@ import { Command } from 'commander';
 import { copyFile } from './fs.js';
 import { routeFiles, staticFiles, wordpressSourcePath } from './config.js';
 import { handlePathValidation } from './utils.js';
-import { basename, relative, resolve } from 'node:path';
+import { relative, resolve } from 'node:path';
 import inquirer from 'inquirer';
 
 (async () => {
