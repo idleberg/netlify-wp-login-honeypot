@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { randomResponse } from '$lib/utils';
+	import { randomResponse } from '../../lib/utils';
 	import { page } from '$app/stores';
 
 	let errorMessage = '';

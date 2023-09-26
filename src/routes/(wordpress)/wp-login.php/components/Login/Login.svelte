@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { randomResponse } from '$lib/utils';
+	import { randomResponse } from '../../lib/utils';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 
