@@ -1,9 +1,10 @@
 import { resolve } from 'node:path';
 
 export const routeFiles = [
-  '(wordpress)/wp-admin/[...slug]/+page.server.js',
+  '(wordpress)/+layout.svelte',
+  '(wordpress)/wp-admin/[...slug]/+page.server.ts',
   '(wordpress)/wp-admin/+page.server.js',
-  '(wordpress)/wp-login.php/+page.js',
+  '(wordpress)/wp-login.php/+page.ts',
   '(wordpress)/wp-login.php/+page.svelte',
   '(wordpress)/wp-login.php/components/Login/index.ts',
   '(wordpress)/wp-login.php/components/Login/Login.svelte',
